@@ -1,6 +1,8 @@
-export async function GET(request: Request) {
+import { NextRequest, NextResponse } from "next/server";
+
+export const GET = async function (request: NextRequest) {
     const days = getDaysSince(new Date(2025, 8, 7));
-    return Response.json(
+    return NextResponse.json(
         { days },
         { status: 200 }
     );  
