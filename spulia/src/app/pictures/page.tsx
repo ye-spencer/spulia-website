@@ -1,14 +1,12 @@
 import Header from "@/components/header";
 
-export default function BookReview() {
-
-    
+export default function Pictures() {
     return (
         <div>
             <Header />
-            <h1> Book Review </h1>
+            <h1> Pictures </h1>
         </div>
     );
 }
 
-// TODO: make book review page
+// TODO: make gallery of pictures

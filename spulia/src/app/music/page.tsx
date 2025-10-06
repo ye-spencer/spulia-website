@@ -8,3 +8,5 @@ export default function Music() {
         </div>
     );
 }
+
+// TODO: make music page
