@@ -1,7 +1,6 @@
-export async function getDays() {
-    // TODO : MAKE NICER
+export async function getDays()
+{
     const response = await fetch("/api/getDays");
     const data = await response.json();
-    console.log(data);
     return data.days;
 }
