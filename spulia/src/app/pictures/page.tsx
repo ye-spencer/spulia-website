@@ -5,6 +5,7 @@ export default function Pictures() {
         <div>
             <Header />
             <h1> Pictures </h1>
+            <p> Coming soon...</p>
         </div>
     );
 }

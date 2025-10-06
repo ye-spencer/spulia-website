@@ -7,6 +7,7 @@ export default function BookReview() {
         <div>
             <Header />
             <h1> Book Review </h1>
+            <p> Coming soon...</p>
         </div>
     );
 }
