@@ -6,7 +6,7 @@ export const GET = async function (request: NextRequest) {
             {
                 id: 1,
                 title: "Book 1",
-                description: "Description 1",
+                author: "Author 1",
             },
         ],
     });
