@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { addBookReview, getReviewedBooks } from "./actions";
+import { useLocalStorage } from "@/lib/localStorage";
 
 function AddBookReview() {
 
@@ -25,7 +26,7 @@ function AddBookReview() {
 
     const [books, setBooks] = useState<any[]>([]);
     const [selectedBook, setSelectedBook] = useState("-1");
-
+    const [person, setPerson] = useLocalStorage("person", "");
     useEffect(() => {
         async function fetchBooks() {
             const books = await getReviewedBooks();
@@ -46,7 +47,7 @@ function AddBookReview() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        addBookReview(formData, bookData.title, bookData.author);
+        addBookReview(formData, bookData.title, bookData.author, person);
     };
 
 
