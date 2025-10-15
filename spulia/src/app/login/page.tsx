@@ -5,26 +5,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import login from "./actions";
-import { useLocalStorage } from "@/lib/localStorage";
-import { redirect } from "next/navigation";
+import { usePersonStore } from "@/lib/localStorage";
 
 export default function Login() {
 
-    const [user, setUser] = useState<string>("");
+    const [userSelected, setUserSelected] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-
-
 
     const [error, setError] = useState<string>("");
 
-    const [loggedIn, setLoggedIn] = useLocalStorage("loggedIn", "");
+    const { person, setPerson } = usePersonStore();
 
     function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try
         {
-            const result = login(user, password);
-            setLoggedIn(result);    
+            const result = login(userSelected, password);
+            setPerson(result);    
         }
         catch (error) {
             setError(error instanceof Error ? error.message : "An unknown error occurred");
@@ -34,12 +31,12 @@ export default function Login() {
     return (
         <div className="min-h-screen bg-white flex flex-col items-center">
             <Header />
-            {loggedIn && <div className="w-full max-w-md mt-16 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6 items-center border border-gray-200">
-                <p>Logged in as {loggedIn}</p>
-                <Button onClick={() => setLoggedIn("")}>Logout</Button>
+            {person && <div className="w-full max-w-md mt-16 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6 items-center border border-gray-200">
+                <p>Logged in as {person}</p>
+                <Button onClick={() => setPerson("")}>Logout</Button>
             </div>}
             
-            {!loggedIn && <div className="w-full max-w-md mt-16 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6 items-center border border-gray-200">
+            {!person && <div className="w-full max-w-md mt-16 bg-white rounded-2xl shadow-lg p-8 flex flex-col gap-6 items-center border border-gray-200">
                 <h1 className="text-3xl font-extrabold text-gray-800 mb-2 flex items-center gap-2">
                     Login
                 </h1>
@@ -48,21 +45,21 @@ export default function Login() {
                 <div className="flex gap-4 w-full justify-center">
                     <Button
                         className={`flex-1 py-3 text-lg font-semibold rounded-full ${
-                            user === "Spencer"
+                            userSelected === "Spencer"
                                 ? "border-2 border-green-500 bg-green-50"
                                 : "bg-gray-100 border border-gray-200"
                         } text-gray-800 hover:bg-gray-200 transition`}
-                        onClick={() => setUser("Spencer")}
+                        onClick={() => setUserSelected("Spencer")}
                     >
                         Spencer
                     </Button>
                     <Button
                         className={`flex-1 py-3 text-lg font-semibold rounded-full ${
-                            user === "Julia"
+                            userSelected === "Julia"
                                 ? "border-2 border-pink-500 bg-pink-50"
                                 : "bg-gray-100 border border-gray-200"
                         } text-gray-800 hover:bg-gray-200 transition`}
-                        onClick={() => setUser("Julia")}
+                        onClick={() => setUserSelected("Julia")}
                     >
                         Julia
                     </Button>
