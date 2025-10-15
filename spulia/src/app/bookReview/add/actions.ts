@@ -53,8 +53,10 @@ export async function addBookReview(bookInfo : BookInfo, bookReview: BookReview,
 
 export async function getBookReview(id: string, person: string) {
 
-    if (id === "-1") {
-        return { 
+    const response = await fetch(`/api/bookReviews/individual?id=${id}&person=${person}`);
+
+    if (response.status === 404) {
+        return {
             rating: "",
             favoriteLine: "",
             favoriteCharacter: "",
@@ -62,8 +64,6 @@ export async function getBookReview(id: string, person: string) {
             comments: "",
         };
     }
-
-    const response = await fetch(`/api/bookReviews/individual?id=${id}&person=${person}`);
     const data = await response.json();
     return data;
 }
