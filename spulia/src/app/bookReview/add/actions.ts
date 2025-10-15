@@ -1,5 +1,8 @@
+import { BookInfo, BookReview } from "@/lib/types";
+
+
 export async function getReviewedBooks() {
-    const response = await fetch("/api/bookReviews");
+    const response = await fetch("/api/books");
     const data = await response.json();
 
     const books = [{ id: "-1", title: "New Title", author: "New Author" }];
@@ -14,14 +17,53 @@ export async function getReviewedBooks() {
     return books;
 }
 
-export async function addBookReview(bookReview: any, title: string, author: string, person: string) {
-    // GET id, title, author, person, and other info, put it into a call to api
+async function addBook(book: BookInfo) {
+    const response = await fetch("/api/books", {
+        method: "POST",
+        body: JSON.stringify(book),
+    });
+    const data = await response.json();
 
-    if (bookReview.id === "-1") {
-        // MAKE NEW BOOK, THEN MAKE NEW BOOK REVIEW
+    console.log(data);
+    if (data.book.length !== 1) {
+        return { id: "-1", title: "New Title", author: "New Author" };
     }
 
-    // MAKE NEW BOOK REVIEW
+    return data.book[0];
 }
 
-// FUNCTION for getting a review by id and person for filling in, also patch instead
+export async function addBookReview(bookInfo : BookInfo, bookReview: BookReview, id: string, person: string) {
+
+    if (id === "-1") {
+        const book = await addBook({
+            title: bookInfo.title,
+            author: bookInfo.author,
+        });
+        console.log(book);
+        id = book.id;
+    }
+
+    const response = await fetch(`/api/bookReviews/individual?id=${id}&person=${person}`, {
+        method: "PATCH",
+        body: JSON.stringify(bookReview),
+    });
+    const data = await response.json();
+    return data;
+}
+
+export async function getBookReview(id: string, person: string) {
+
+    if (id === "-1") {
+        return { 
+            rating: "",
+            favoriteLine: "",
+            favoriteCharacter: "",
+            leastFavoriteCharacter: "",
+            comments: "",
+        };
+    }
+
+    const response = await fetch(`/api/bookReviews/individual?id=${id}&person=${person}`);
+    const data = await response.json();
+    return data;
+}

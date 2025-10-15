@@ -1,13 +1,9 @@
-import { db } from "@/lib/db/db";
-import { books } from "@/lib/db/schema";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const GET = async function (request: NextRequest) {
-
-
-    const booksList = await db.select().from(books);
-
+export async function GET(request: Request) {
     return NextResponse.json({
-        bookReviews: booksList,
+        message: "Book reviews",
     });
 }
+
+// TODO: mayhaps a lil, graphql action here?
