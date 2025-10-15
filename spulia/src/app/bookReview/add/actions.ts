@@ -1,4 +1,4 @@
-import { BookInfo, BookReview } from "@/lib/types";
+import { BookInfo, BookReviewType } from "@/lib/types";
 
 
 export async function getReviewedBooks() {
@@ -24,7 +24,6 @@ async function addBook(book: BookInfo) {
     });
     const data = await response.json();
 
-    console.log(data);
     if (data.book.length !== 1) {
         return { id: "-1", title: "New Title", author: "New Author" };
     }
@@ -32,7 +31,7 @@ async function addBook(book: BookInfo) {
     return data.book[0];
 }
 
-export async function addBookReview(bookInfo : BookInfo, bookReview: BookReview, id: string, person: string) {
+export async function addBookReview(bookInfo : BookInfo, bookReview: BookReviewType, id: string, person: string) {
 
     if (id === "-1") {
         const book = await addBook({
@@ -57,9 +56,10 @@ export async function getBookReview(id: string, person: string) {
 
     if (response.status === 404) {
         return {
+            bookId: "",
             rating: "",
             favoriteLine: "",
-            favoriteCharacter: "",
+            favoriteCharacter: "",   
             leastFavoriteCharacter: "",
             comments: "",
         };

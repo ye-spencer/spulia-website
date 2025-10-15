@@ -1,5 +1,3 @@
-
-
 export interface BookInfo {
     title: string;
     author: string;
@@ -9,7 +7,8 @@ export interface BookIdentifier extends BookInfo {
     id: string;
 }
 
-export interface BookReview {
+export interface BookReviewType {
+    bookId: string;
     rating: string;
     favoriteLine: string;
     favoriteCharacter: string;

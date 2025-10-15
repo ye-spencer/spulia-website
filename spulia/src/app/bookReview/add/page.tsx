@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect } from "react";
 import { addBookReview, getBookReview, getReviewedBooks } from "./actions";
 import { usePersonStore } from "@/lib/localStorage";
-import { BookIdentifier, BookInfo } from "@/lib/types";
+import { BookIdentifier, BookReviewType } from "@/lib/types";
+import { Toaster, toast } from 'react-hot-toast';
+import Link from "next/link";
 
 function AddBookReview() {
 
-
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<BookReviewType>({
+        bookId: "",
         rating: "",
         favoriteLine: "",
         favoriteCharacter: "",
@@ -20,7 +22,7 @@ function AddBookReview() {
         comments: "",
     });
 
-    const [bookData, setBookData] = useState({
+    const [bookData, setBookData] = useState<BookIdentifier>({
         id: "-1",
         title: "",
         author: "",
@@ -48,6 +50,7 @@ function AddBookReview() {
 
         const bookReview = await getBookReview(e.target.value, person);
         setFormData({
+            bookId: e.target.value,
             rating: bookReview.rating,
             favoriteLine: bookReview.favoriteLine,
             favoriteCharacter: bookReview.favoriteCharacter,
@@ -56,10 +59,15 @@ function AddBookReview() {
         });
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        addBookReview(bookData, formData, bookData.id, person);
-    };
+        const bookReview = await addBookReview(bookData, formData, bookData.id, person);
+        if (bookReview.bookId !== "") {
+            toast.success("Book review added");
+        } else {
+            toast.error("Book review not added");
+        }
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-100 flex flex-col items-center">
@@ -67,7 +75,15 @@ function AddBookReview() {
             <Header />
             <div className="w-full max-w-md bg-white shadow-lg rounded-lg p-8 m-4">
                 <h1 className="text-2xl font-bold mb-4 text-center text-blue-800">Add a Book Review</h1>
-
+                <div className="flex justify-center mb-4">
+                    <Link
+                        href="/bookReview"
+                        className="inline-block px-2 py-1 rounded-md font-semibold hover:bg-gray-100 transition-colors duration-150 text-center text-sm"
+                        style={{ minWidth: "0" }}
+                    >
+                        ← Back to Book Reviews
+                    </Link>
+                </div>
                 <div className="mb-6">
                     <label htmlFor="book" className="block text-sm font-semibold text-gray-700 mb-2">
                         Choose a Book
@@ -166,6 +182,7 @@ function AddBookReview() {
                     >
                         Submit
                     </Button>
+                    <Toaster />
                 </form>
             </div>
         </div>
