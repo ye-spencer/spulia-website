@@ -1,10 +1,12 @@
 "use client";
 import { getDays } from "@/lib/api";
+import { usePersonStore } from "@/lib/localStorage";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Header() {
     const [daysSince, setDaysSince] = useState<number | null>(null);
+    const person = usePersonStore((s) => s.person);
 
     useEffect(() => {
         async function fetchDays() {
@@ -38,12 +40,18 @@ export default function Header() {
                 >
                     <span role="img" aria-label="house">🏡</span> Home
                 </Link>
-                <Link
-                    href="/login"
-                    className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors duration-150 border border-gray-200"
-                >
-                    <span role="img" aria-label="key">🔑</span> Login
-                </Link>
+                {person ? (
+                    <span className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium border border-gray-200">
+                        <span role="img" aria-label="person">👤</span> {person}
+                    </span>
+                ) : (
+                    <Link
+                        href="/login"
+                        className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors duration-150 border border-gray-200"
+                    >
+                        <span role="img" aria-label="key">🔑</span> Login
+                    </Link>
+                )}
             </nav>
         </header>
     );
