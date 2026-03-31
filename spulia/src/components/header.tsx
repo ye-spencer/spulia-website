@@ -41,9 +41,12 @@ export default function Header() {
                     <span role="img" aria-label="house">🏡</span> Home
                 </Link>
                 {person ? (
-                    <span className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium border border-gray-200">
+                    <Link
+                        href="/logout"
+                        className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-colors duration-150 border border-gray-200"
+                    >
                         <span role="img" aria-label="person">👤</span> {person}
-                    </span>
+                    </Link>
                 ) : (
                     <Link
                         href="/login"
