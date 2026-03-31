@@ -15,3 +15,13 @@ export interface BookReviewType {
     leastFavoriteCharacter: string;
     comments: string;
 }
+
+export interface DateBucketlistItem {
+    id: number;
+    title: string;
+    description: string;
+    city: string;
+    addedBy: string;
+    done: boolean;
+    createdAt: string;
+}

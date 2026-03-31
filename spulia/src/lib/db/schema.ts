@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, varchar, integer, timestamp, boolean } from "drizzle-orm/pg-core";
 
 export const books = pgTable("books", {
     id: serial("id").primaryKey(),
@@ -16,5 +16,15 @@ export const bookReviews = pgTable("book_reviews", {
     favoriteCharacter: varchar("favorite_character", { length: 255 }).notNull(),
     leastFavoriteCharacter: varchar("least_favorite_character", { length: 255 }).notNull(),
     comments: varchar("comments", { length: 1000 }).notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const dateBucketlist = pgTable("date_bucketlist", {
+    id: serial("id").primaryKey(),
+    title: varchar("title", { length: 255 }).notNull(),
+    description: varchar("description", { length: 1000 }).notNull().default(""),
+    city: varchar("city", { length: 255 }).notNull(),
+    addedBy: varchar("added_by", { length: 255 }).notNull(),
+    done: boolean("done").notNull().default(false),
     createdAt: timestamp("created_at").defaultNow(),
 });

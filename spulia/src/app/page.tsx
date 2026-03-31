@@ -26,6 +26,12 @@ export default function Home() {
             >
               Pictures
             </Link>
+            <Link
+              href="/dateBucketlist"
+              className="block w-full text-center py-3 rounded-full bg-rose-50 text-rose-800 font-semibold text-lg border border-rose-200 shadow hover:bg-rose-100 transition"
+            >
+              Date Bucket List
+            </Link>
           </nav>
         </main>
       </div>
