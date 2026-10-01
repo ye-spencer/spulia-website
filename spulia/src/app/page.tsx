@@ -32,6 +32,12 @@ export default function Home() {
             >
               Date Bucket List
             </Link>
+            <Link
+              href="/tools"
+              className="block w-full text-center py-3 rounded-full bg-indigo-50 text-indigo-800 font-semibold text-lg border border-indigo-200 shadow hover:bg-indigo-100 transition"
+            >
+              Tools
+            </Link>
           </nav>
         </main>
       </div>
