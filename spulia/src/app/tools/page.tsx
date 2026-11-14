@@ -4,10 +4,12 @@ import Header from "@/components/header";
 import { useState } from "react";
 
 // How many numbers to generate per check-in.
-const PICK_COUNT = 5;
-// Smallest check-in that still has enough distinct values in 1..input to
-// produce PICK_COUNT numbers without repeating.
-const MIN_INPUT = PICK_COUNT;
+const PICK_COUNT = 4;
+// Lowest number that can be picked; check-ins below this are never selected.
+const MIN_PICK = 5;
+// Smallest check-in that still has enough distinct values in MIN_PICK..input
+// to produce PICK_COUNT numbers without repeating.
+const MIN_INPUT = MIN_PICK + PICK_COUNT - 1;
 
 // How flat the weighting is. A flat baseline of FLATNESS * checkIn is added to
 // every candidate's weight, softening the bias toward larger numbers. 0 = pure
@@ -15,13 +17,16 @@ const MIN_INPUT = PICK_COUNT;
 const FLATNESS = 1;
 
 /**
- * Picks PICK_COUNT distinct numbers from 1..checkIn (the input is the upper
- * bound; 0 is excluded). Numbers closer to the check-in are more likely, with
+ * Picks PICK_COUNT distinct numbers from MIN_PICK..checkIn (the input is the
+ * upper bound). Numbers closer to the check-in are more likely, with
  * probability falling off linearly as they get smaller. Sampling is done
  * without replacement so the picks are distinct.
  */
 function pickNumbers(checkIn: number): number[] {
-    const candidates = Array.from({ length: checkIn }, (_, i) => i + 1);
+    const candidates = Array.from(
+        { length: checkIn - MIN_PICK + 1 },
+        (_, i) => i + MIN_PICK,
+    );
     // Linear weight toward the top, plus a flat baseline that scales with the
     // input so the bias is gentle regardless of how large the check-in is.
     const base = FLATNESS * checkIn;
@@ -139,7 +144,7 @@ export default function ToolsPage() {
                 <div className="w-full flex flex-col gap-4">
                     <ToolBox
                         title="Check-in Number"
-                        description="Enter a check-in number to generate 5 smaller numbers, favoring ones close to it."
+                        description={`Enter a check-in number to generate ${PICK_COUNT} numbers from ${MIN_PICK} up to it, favoring ones close to it.`}
                     >
                         <CheckInNumberTool />
                     </ToolBox>
